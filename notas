@@ -1,0 +1,72 @@
+nota: si el token es invalido o el usuario no tiene los accesos necesarios
+      retornar status 401 en la respuesta del endpoint
+
+1) configurar express
+2) configurar sequelize
+npm init = package.json &&
+npm install = package-lock.json
+npm install express = node modules
+npm install body-parser
+npm install sequelize
+npm install jsonwebtoken
+npm install mysql2
+
+3) Crear base de datos con las siguentes tablas:
+
+   - usuarios 
+       (definir los campos que usamos el dia de ayer) + un campo para
+       definir el area asignada (ventas, servicio a cliente, 
+                                 soporte tecnico, creditos, general) 
+   - Clientes
+       id, nombre, email, telefono, area (ventas, servicio a cliente, 
+                                          soporte tecnico, creditos, general)
+
+4) Crear endpoints para:
+   - generar token
+   - token expira en 30 mins
+   - claims definiran:
+        id, nombre Usuario,role, area
+        
+
+5) Crear endpoints con validacion de token:
+    - Crear Cliente
+        - Solo se puede agregar clientes al area del usuario logueado
+
+    - Listar clientes
+        - si el rol es administrador lista todos 
+        - si no es admin Solo lista los clientes del area del usuario
+    
+    - Obtener cliente por ID 
+        - si no es admin Solo puede consultar
+          en base a los clientes del area del usuario
+
+
+    - Eliminar cliente (Para poder eliminar un cliente 
+                        se requiere que el en los claims del token 
+                        el usuario tenga permisos de administrador
+                         y tambien el cliente pertenezca al area del
+                        usuario)
+
+
+
+
+npm run start o node server o npm start
+
+http://jw.io/     comprobamos nuestro token
+secret key = signature verified
+
+
+CREATE TABLE USUARIOS ( 
+id INT(11) AUTO_INCREMENT PRIMARY KEY, 
+usuario VARCHAR(100) NOT NULL,
+contraseña VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE REGISTRO (
+id INT(11) AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR (255) NOT NULL,
+email VARCHAR(255) NOT NULL,
+contraseña VARCHAR(255)NOT NULL,
+telefono INT(11),
+area VARCHAR(255)
+);
